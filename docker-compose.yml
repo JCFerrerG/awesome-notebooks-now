@@ -1,0 +1,45 @@
+version: "3"
+
+services:
+
+  spark-notebook:
+    container_name: spark-notebook
+    image: andypetrella/spark-notebook:0.8.3-scala-2.11.8-spark-2.2.2-hadoop-2.6.0
+    ports:
+      - "8080:9000"
+      - "4040-4045:4040-4045" # hadoop
+
+  zeppelin:
+    container_name: zeppelin
+    image: apache/zeppelin:0.9.0
+    ports:
+      - "8081:8080"
+
+  # Jupyter Docker Stacks, port_range: 8080-8089 #################################
+
+  all-spark-notebook:
+    image: jupyter/all-spark-notebook
+    container_name: all-spark-notebook
+    command: start-notebook.sh --NotebookApp.token='test'
+    volumes:
+      - "./work/all-spark:/home/joyvan/work"
+    ports:
+      - "8090:8888"
+
+  datascience-notebook:
+    image: jupyter/datascience-notebook
+    container_name: datascience-notebook
+    command: start-notebook.sh --NotebookApp.token='test'
+    volumes:
+      - "./work/datascience:/home/joyvan/work"
+    ports:
+      - "8091:8888"
+
+  tensorflow-notebook:
+    image: jupyter/tensorflow-notebook
+    container_name: tensorflow-notebook
+    command: start-notebook.sh --NotebookApp.token='test'
+    volumes:
+      - "./work/tensorflow:/home/joyvan/work"
+    ports:
+      - "8092:8888"
